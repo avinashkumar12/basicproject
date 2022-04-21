@@ -1,0 +1,23 @@
+CREATE TABLE `tbl_course_category` (
+  `id` int(11) NOT NULL   AUTOINCRIMENT,
+  `title` varchar(64) NOT NULL,
+  `image` varchar(64) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `created_on` int(11) DEFAULT NULL, 
+  `created_by_id` int(11) DEFAULT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `tbl_course_sub_category` (
+  `id` int(11) NOT NULL  AUTOINCRIMENT,
+  `category_id`  int(11) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `image` varchar(64) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `created_on` int(11) DEFAULT NULL, 
+  `created_by_id` int(11) DEFAULT NULL,
+CONSTRAINT FK_ course_sub_category FOREIGN KEY (category_id)
+    REFERENCES course_sub_category(category_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

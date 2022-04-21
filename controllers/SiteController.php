@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Category;
+use app\models\TblUser;
 
 class SiteController extends Controller
 {
@@ -128,5 +129,30 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    public function actionSignup()
+    {
+        $model = new TblUser();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                $model->username = $_POST['TblUser']['full_name'];
+                $model->full_name = $_POST['TblUser']['full_name'];
+                $model->email = $_POST['TblUser']['email'];
+                $model->first_name = $_POST['TblUser']['first_name'];
+                $model->last_name = $_POST['TblUser']['last_name'];
+                $model->password = password_hash($_POST['TblUser']['password'],PASSWORD_ARGON2I);
+                $model->authkey = md5(random_bytes(6));
+                $model->accesstoken = password_hash(random_bytes(10), PASSWORD_DEFAULT);
+                if($model->save())
+                {
+                    return $this->redirect(['login']);
+                }
+            }
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 }
